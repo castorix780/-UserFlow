@@ -31,3 +31,9 @@ def get_user_count():
         return conn.execute(
             "SELECT COUNT(*) FROM users"
         ).fetchone()[0]
+def get_referral_count(user_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        return conn.execute(
+            "SELECT COUNT(*) FROM users WHERE referrer_id = ?",
+            (user_id,)
+        ).fetchone()[0]

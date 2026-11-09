@@ -17,13 +17,17 @@ def init_db():
         """)
 
 
-def add_user(user_id, username, first_name):
+def add_user(user_id, username, first_name, referrer_id=None):
+
+    if referrer_id == user_id:
+        referrer_id = None
+
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute("""
             INSERT OR IGNORE INTO users
-            (telegram_id, username, first_name)
-            VALUES (?, ?, ?)
-        """, (user_id, username, first_name))
+            (telegram_id, username, first_name, referrer_id)
+            VALUES (?, ?, ?, ?)
+        """, (user_id, username, first_name, referrer_id))
 
 
 def get_user_count():
@@ -31,6 +35,8 @@ def get_user_count():
         return conn.execute(
             "SELECT COUNT(*) FROM users"
         ).fetchone()[0]
+
+
 def get_referral_count(user_id):
     with sqlite3.connect(DB_PATH) as conn:
         return conn.execute(

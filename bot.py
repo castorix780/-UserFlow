@@ -1,14 +1,19 @@
 import telebot
 import os
 from telebot import types
-
+from database import (
+    init_db,
+    add_user,
+    get_user_count,
+    get_referral_count
+)
 TOKEN = os.getenv("BOT_TOKEN")
 
 if not TOKEN:
     raise ValueError("BOT_TOKEN не настроен")
 
 bot = telebot.TeleBot(TOKEN)
-
+init_db()
 @bot.message_handler(commands=['start'])
 def start(message):
 

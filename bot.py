@@ -53,3 +53,18 @@ def menu(message):
 
 
 bot.infinity_polling()
+@bot.message_handler(commands=['referral'])
+def referral(message):
+    user_id = message.from_user.id
+    bot_username = bot.get_me().username
+
+    link = f"https://t.me/{bot_username}?start=ref_{user_id}"
+
+    count = get_referral_count(user_id)
+
+    bot.send_message(
+        message.chat.id,
+        f"👥 Твоя реферальная система\n\n"
+        f"🔗 Твоя ссылка:\n{link}\n\n"
+        f"👤 Приглашено: {count}"
+    )
